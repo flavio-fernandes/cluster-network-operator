@@ -1,3 +1,9 @@
+MIN_GOLANGCI_LINT_VER_MAJOR=1
+MIN_GOLANGCI_LINT_VER_MINOR=53
+GOLANGCI_LINT_VER_MAJOR := $(shell golangci-lint --version | grep -o "version [0-9\.]*" | cut -f2 -d " " | cut -f1 -d ".")
+GOLANGCI_LINT_VER_MINOR := $(shell golangci-lint --version | grep -o "version [0-9\.]*" | cut -f2 -d " " | cut -f2 -d ".")
+GOLANGCI_GT_1_53 := $(shell [ $(GOLANGCI_LINT_VER_MAJOR) -gt 1 -o \( $(GOLANGCI_LINT_VER_MAJOR) -eq 1 -a $(GOLANGCI_LINT_VER_MINOR) -ge 53 \) ] && echo true)
+
 all: build
 .PHONY: all
 
@@ -22,6 +28,10 @@ $(call add-profile-manifests,manifests,./profile-patches,./manifests)
 #   make check
 check: | verify test-unit golangci-lint
 .PHONY: check
+
+ifneq ($(GOLANGCI_GT_1_53),true)
+golangci-lint: install.tools
+endif
 
 golangci-lint:
 	golangci-lint run --verbose --print-resources-usage --modules-download-mode=vendor --timeout=5m0s
