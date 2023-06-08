@@ -382,7 +382,6 @@ func TestRenderKubeProxy(t *testing.T) {
 			g.Expect(val).To(MatchYAML(`
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 bindAddress: 0.0.0.0
-bindAddressHardFail: false
 clientConnection:
   acceptContentTypes: ""
   burst: 0
@@ -396,15 +395,10 @@ conntrack:
   min: null
   tcpCloseWaitTimeout: null
   tcpEstablishedTimeout: null
-detectLocal:
-  bridgeInterface: ""
-  interfaceNamePrefix: ""
-detectLocalMode: ""
 enableProfiling: false
 healthzBindAddress: 0.0.0.0:10255
 hostnameOverride: ""
 iptables:
-  localhostNodePorts: null
   masqueradeAll: false
   masqueradeBit: null
   minSyncPeriod: 0s
@@ -415,21 +409,17 @@ ipvs:
   scheduler: ""
   strictARP: false
   syncPeriod: 0s
-  tcpFinTimeout: 0s
-  tcpTimeout: 0s
-  udpTimeout: 0s
 kind: KubeProxyConfiguration
 metricsBindAddress: 0.0.0.0:29102
 mode: iptables
 nodePortAddresses: null
 oomScoreAdj: null
 portRange: ""
-showHiddenMetricsForVersion: ""
+resourceContainer: ""
+udpIdleTimeout: 0s
 winkernel:
   enableDSR: false
-  forwardHealthCheckVip: false
   networkName: ""
-  rootHnsEndpointName: ""
   sourceVip: ""
 `))
 		}
