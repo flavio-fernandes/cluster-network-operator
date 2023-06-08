@@ -74,8 +74,7 @@ func TestKubeProxyConfig(t *testing.T) {
 	errs := validateKubeProxy(&config)
 	g.Expect(errs).To(HaveLen(0))
 
-	// cfg, err := kubeProxyConfiguration(map[string]operv1.ProxyArgumentList{
-	_, err := kubeProxyConfiguration(map[string]operv1.ProxyArgumentList{
+	cfg, err := kubeProxyConfiguration(map[string]operv1.ProxyArgumentList{
 		// special address+port combo
 		"metrics-bind-address":   {"1.2.3.4"},
 		"metrics-port":           {"999"},
@@ -86,71 +85,58 @@ func TestKubeProxyConfig(t *testing.T) {
 			"conntrack-max-per-core": {"15"},
 		})
 	g.Expect(err).NotTo(HaveOccurred())
-	//	g.Expect(cfg).To(MatchYAML(`apiVersion: kubeproxy.config.k8s.io/v1alpha1
-	//
-	// bindAddress: "0.0.0.0"
-	// bindAddressHardFail: false
-	// clientConnection:
-	//
-	//	acceptContentTypes: ""
-	//	burst: 0
-	//	contentType: ""
-	//	kubeconfig: ""
-	//	qps: 0
-	//
-	// clusterCIDR: 10.128.0.0/14
-	// configSyncPeriod: 0s
-	// conntrack:
-	//
-	//	maxPerCore: 15
-	//	min: null
-	//	tcpCloseWaitTimeout: 10m0s
-	//	tcpEstablishedTimeout: null
-	//
-	// detectLocal:
-	//
-	//	bridgeInterface: ""
-	//	interfaceNamePrefix: ""
-	//
-	// detectLocalMode: ""
-	// enableProfiling: false
-	// healthzBindAddress: ""
-	// hostnameOverride: ""
-	// iptables:
-	//
-	//	localhostNodePorts: null
-	//	masqueradeAll: false
-	//	masqueradeBit: 14
-	//	minSyncPeriod: 2m0s
-	//	syncPeriod: 1m0s
-	//
-	// ipvs:
-	//
-	//	excludeCIDRs: null
-	//	minSyncPeriod: 0s
-	//	scheduler: ""
-	//	strictARP: false
-	//	syncPeriod: 0s
-	//	tcpFinTimeout: 0s
-	//	tcpTimeout: 0s
-	//	udpTimeout: 0s
-	//
-	// kind: KubeProxyConfiguration
-	// metricsBindAddress: 1.2.3.4:999
-	// mode: blah
-	// nodePortAddresses: null
-	// oomScoreAdj: null
-	// portRange: ""
-	// showHiddenMetricsForVersion: ""
-	// winkernel:
-	//
-	//	enableDSR: false
-	//	forwardHealthCheckVip: false
-	//	networkName: ""
-	//	rootHnsEndpointName: ""
-	//	sourceVip: ""
-	//
-	// `))
+	g.Expect(cfg).To(MatchYAML(`apiVersion: kubeproxy.config.k8s.io/v1alpha1
+bindAddress: "0.0.0.0"
+bindAddressHardFail: false
+clientConnection:
+  acceptContentTypes: ""
+  burst: 0
+  contentType: ""
+  kubeconfig: ""
+  qps: 0
+clusterCIDR: 10.128.0.0/14
+configSyncPeriod: 0s
+conntrack:
+  maxPerCore: 15
+  min: null
+  tcpCloseWaitTimeout: 10m0s
+  tcpEstablishedTimeout: null
+detectLocal:
+  bridgeInterface: ""
+  interfaceNamePrefix: ""
+detectLocalMode: ""
+enableProfiling: false
+healthzBindAddress: ""
+hostnameOverride: ""
+iptables:
+  localhostNodePorts: null
+  masqueradeAll: false
+  masqueradeBit: 14
+  minSyncPeriod: 2m0s
+  syncPeriod: 1m0s
+ipvs:
+  excludeCIDRs: null
+  minSyncPeriod: 0s
+  scheduler: ""
+  strictARP: false
+  syncPeriod: 0s
+  tcpFinTimeout: 0s
+  tcpTimeout: 0s
+  udpTimeout: 0s
+kind: KubeProxyConfiguration
+metricsBindAddress: 1.2.3.4:999
+mode: blah
+nodePortAddresses: null
+oomScoreAdj: null
+portRange: ""
+showHiddenMetricsForVersion: ""
+winkernel:
+  enableDSR: false
+  forwardHealthCheckVip: false
+  networkName: ""
+  rootHnsEndpointName: ""
+  sourceVip: ""
+`))
 }
 
 func TestKubeProxyIPv6Config(t *testing.T) {
@@ -159,8 +145,7 @@ func TestKubeProxyIPv6Config(t *testing.T) {
 	errs := validateKubeProxy(&configIPv6)
 	g.Expect(errs).To(HaveLen(0))
 
-	// cfg, err := kubeProxyConfiguration(
-	_, err := kubeProxyConfiguration(
+	cfg, err := kubeProxyConfiguration(
 		map[string]operv1.ProxyArgumentList{
 			// special address+port combo
 			"metrics-bind-address":   {"fd00:1234::4"},
@@ -172,71 +157,58 @@ func TestKubeProxyIPv6Config(t *testing.T) {
 			"conntrack-max-per-core": {"15"},
 		})
 	g.Expect(err).NotTo(HaveOccurred())
-	//	g.Expect(cfg).To(MatchYAML(`apiVersion: kubeproxy.config.k8s.io/v1alpha1
-	//
-	// bindAddress: "::"
-	// bindAddressHardFail: false
-	// clientConnection:
-	//
-	//	acceptContentTypes: ""
-	//	burst: 0
-	//	contentType: ""
-	//	kubeconfig: ""
-	//	qps: 0
-	//
-	// clusterCIDR: fd00:1234::/48
-	// configSyncPeriod: 0s
-	// conntrack:
-	//
-	//	maxPerCore: 15
-	//	min: null
-	//	tcpCloseWaitTimeout: 10m0s
-	//	tcpEstablishedTimeout: null
-	//
-	// detectLocal:
-	//
-	//	bridgeInterface: ""
-	//	interfaceNamePrefix: ""
-	//
-	// detectLocalMode: ""
-	// enableProfiling: false
-	// healthzBindAddress: ""
-	// hostnameOverride: ""
-	// iptables:
-	//
-	//	localhostNodePorts: null
-	//	masqueradeAll: false
-	//	masqueradeBit: 14
-	//	minSyncPeriod: 2m0s
-	//	syncPeriod: 1m0s
-	//
-	// ipvs:
-	//
-	//	excludeCIDRs: null
-	//	minSyncPeriod: 0s
-	//	scheduler: ""
-	//	strictARP: false
-	//	syncPeriod: 0s
-	//	tcpFinTimeout: 0s
-	//	tcpTimeout: 0s
-	//	udpTimeout: 0s
-	//
-	// kind: KubeProxyConfiguration
-	// metricsBindAddress: '[fd00:1234::4]:51999'
-	// mode: blah
-	// nodePortAddresses: null
-	// oomScoreAdj: null
-	// portRange: ""
-	// showHiddenMetricsForVersion: ""
-	// winkernel:
-	//
-	//	enableDSR: false
-	//	forwardHealthCheckVip: false
-	//	networkName: ""
-	//	rootHnsEndpointName: ""
-	//	sourceVip: ""
-	//
-	// `))
+	g.Expect(cfg).To(MatchYAML(`apiVersion: kubeproxy.config.k8s.io/v1alpha1
+bindAddress: "::"
+bindAddressHardFail: false
+clientConnection:
+  acceptContentTypes: ""
+  burst: 0
+  contentType: ""
+  kubeconfig: ""
+  qps: 0
+clusterCIDR: fd00:1234::/48
+configSyncPeriod: 0s
+conntrack:
+  maxPerCore: 15
+  min: null
+  tcpCloseWaitTimeout: 10m0s
+  tcpEstablishedTimeout: null
+detectLocal:
+  bridgeInterface: ""
+  interfaceNamePrefix: ""
+detectLocalMode: ""
+enableProfiling: false
+healthzBindAddress: ""
+hostnameOverride: ""
+iptables:
+  localhostNodePorts: null
+  masqueradeAll: false
+  masqueradeBit: 14
+  minSyncPeriod: 2m0s
+  syncPeriod: 1m0s
+ipvs:
+  excludeCIDRs: null
+  minSyncPeriod: 0s
+  scheduler: ""
+  strictARP: false
+  syncPeriod: 0s
+  tcpFinTimeout: 0s
+  tcpTimeout: 0s
+  udpTimeout: 0s
+kind: KubeProxyConfiguration
+metricsBindAddress: '[fd00:1234::4]:51999'
+mode: blah
+nodePortAddresses: null
+oomScoreAdj: null
+portRange: ""
+showHiddenMetricsForVersion: ""
+winkernel:
+  enableDSR: false
+  forwardHealthCheckVip: false
+  networkName: ""
+  rootHnsEndpointName: ""
+  sourceVip: ""
+`))
 }
 
 func TestShouldDeployKubeProxy(t *testing.T) {
@@ -424,63 +396,62 @@ func TestRenderKubeProxy(t *testing.T) {
 			}
 			found = true
 
-			// val, ok, err := uns.NestedString(obj.Object, "data", "kube-proxy-config.yaml")
-			_, ok, err := uns.NestedString(obj.Object, "data", "kube-proxy-config.yaml")
+			val, ok, err := uns.NestedString(obj.Object, "data", "kube-proxy-config.yaml")
 			g.Expect(ok).To(BeTrue())
 			g.Expect(err).NotTo(HaveOccurred())
-			// 			g.Expect(val).To(MatchYAML(`
-			// apiVersion: kubeproxy.config.k8s.io/v1alpha1
-			// bindAddress: 0.0.0.0
-			// bindAddressHardFail: false
-			// clientConnection:
-			//   acceptContentTypes: ""
-			//   burst: 0
-			//   contentType: ""
-			//   kubeconfig: ""
-			//   qps: 0
-			// clusterCIDR: 192.168.0.0/14
-			// configSyncPeriod: 0s
-			// conntrack:
-			//   maxPerCore: null
-			//   min: null
-			//   tcpCloseWaitTimeout: null
-			//   tcpEstablishedTimeout: null
-			// detectLocal:
-			//   bridgeInterface: ""
-			//   interfaceNamePrefix: ""
-			// detectLocalMode: ""
-			// enableProfiling: false
-			// healthzBindAddress: 0.0.0.0:10255
-			// hostnameOverride: ""
-			// iptables:
-			//   localhostNodePorts: null
-			//   masqueradeAll: false
-			//   masqueradeBit: null
-			//   minSyncPeriod: 0s
-			//   syncPeriod: 42s
-			// ipvs:
-			//   excludeCIDRs: null
-			//   minSyncPeriod: 0s
-			//   scheduler: ""
-			//   strictARP: false
-			//   syncPeriod: 0s
-			//   tcpFinTimeout: 0s
-			//   tcpTimeout: 0s
-			//   udpTimeout: 0s
-			// kind: KubeProxyConfiguration
-			// metricsBindAddress: 0.0.0.0:29102
-			// mode: iptables
-			// nodePortAddresses: null
-			// oomScoreAdj: null
-			// portRange: ""
-			// showHiddenMetricsForVersion: ""
-			// winkernel:
-			//   enableDSR: false
-			//   forwardHealthCheckVip: false
-			//   networkName: ""
-			//   rootHnsEndpointName: ""
-			//   sourceVip: ""
-			// `))
+			g.Expect(val).To(MatchYAML(`
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+bindAddress: 0.0.0.0
+bindAddressHardFail: false
+clientConnection:
+  acceptContentTypes: ""
+  burst: 0
+  contentType: ""
+  kubeconfig: ""
+  qps: 0
+clusterCIDR: 192.168.0.0/14
+configSyncPeriod: 0s
+conntrack:
+  maxPerCore: null
+  min: null
+  tcpCloseWaitTimeout: null
+  tcpEstablishedTimeout: null
+detectLocal:
+  bridgeInterface: ""
+  interfaceNamePrefix: ""
+detectLocalMode: ""
+enableProfiling: false
+healthzBindAddress: 0.0.0.0:10255
+hostnameOverride: ""
+iptables:
+  localhostNodePorts: null
+  masqueradeAll: false
+  masqueradeBit: null
+  minSyncPeriod: 0s
+  syncPeriod: 42s
+ipvs:
+  excludeCIDRs: null
+  minSyncPeriod: 0s
+  scheduler: ""
+  strictARP: false
+  syncPeriod: 0s
+  tcpFinTimeout: 0s
+  tcpTimeout: 0s
+  udpTimeout: 0s
+kind: KubeProxyConfiguration
+metricsBindAddress: 0.0.0.0:29102
+mode: iptables
+nodePortAddresses: null
+oomScoreAdj: null
+portRange: ""
+showHiddenMetricsForVersion: ""
+winkernel:
+  enableDSR: false
+  forwardHealthCheckVip: false
+  networkName: ""
+  rootHnsEndpointName: ""
+  sourceVip: ""
+`))
 		}
 	}
 	g.Expect(found).To(BeTrue())
