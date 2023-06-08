@@ -414,9 +414,9 @@ winkernel:
 			if err != nil {
 				t.Fatalf("unexpected error in %q: %v", test.description, err)
 			}
-			// if config != test.output[1:] {
-			// 	t.Fatalf("mismatch in %q: expected\n%s\n\ngot:\n%s\n\n", test.description, test.output, config)
-			// }
+			if config != test.output[1:] {
+				t.Fatalf("mismatch in %q: expected\n%s\n\ngot:\n%s\n\n", test.description, test.output, config)
+			}
 		} else {
 			if err == nil {
 				t.Fatalf("unexpected non-error in %q: config: %v, args: %v", test.description, config, args)
